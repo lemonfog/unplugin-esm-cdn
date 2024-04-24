@@ -77,7 +77,7 @@ export const unpluginFactory: UnpluginFactory<Partial<Options> | undefined> = op
           // const m2 = i.match(/(.*)\s+from ('|")(vue|vue-router)('|")/s)
           const m2 = i.match(regexp.matchName)
           if (!m2) continue
-          const module = m2[3]
+          const module = m2[3] 
           const a = m2[1].split('{')
           if (a[0]) map[module].exports.add('_default_')
           if (!a[1]) continue
@@ -90,11 +90,7 @@ export const unpluginFactory: UnpluginFactory<Partial<Options> | undefined> = op
         return
       }
 
-      if (isCdnModule) {
-        const s = `${resolvers[cdn](m[1],map[m[1]].version)}`
-        console.log(s)
-        return `export * from "${s}"` 
-      }
+      if (isCdnModule) return `export * from "${resolvers[cdn](m[1],map[m[1]].version)}"`  
       const Var = map[m[1]].var
       const str = `${window ? dot ? 'window.' : 'window["' : ''}${Var}${window ? dot ? '.' : '"]["' : dot ? '.' : '["'}$1${dot ? '' : '"]'}`
       let arr: string[]
@@ -140,7 +136,7 @@ export const unpluginFactory: UnpluginFactory<Partial<Options> | undefined> = op
         }
       })
       moduleArr = Object.keys(map)
-      const join = modules.join('|')
+      const join = moduleArr.join('|')  
       if (moduleArr.length) {
         regexp = {
           'esmFile': new RegExp(`node_modules\/(${join})\/.*\.m?js$`),
